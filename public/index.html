@@ -1,0 +1,956 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Duka La Likes - Admin Dashboard</title>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #1A237E;
+            --secondary: #303F9F;
+            --accent: #FF5722;
+            --bg: #F0F2F5;
+            --text: #333;
+            --white: #fff;
+            --sidebar-width: 260px;
+        }
+
+        body {
+            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            background-color: var(--bg);
+            margin: 0;
+            display: flex;
+            height: 100vh;
+            color: var(--text);
+        }
+
+        /* Sidebar */
+        .sidebar {
+            width: var(--sidebar-width);
+            background: var(--primary);
+            color: var(--white);
+            display: flex;
+            flex-direction: column;
+            box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
+            position: fixed;
+            height: 100%;
+        }
+
+        .sidebar-header {
+            padding: 20px;
+            font-size: 20px;
+            font-weight: bold;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .nav-links {
+            list-style: none;
+            padding: 0;
+            margin: 20px 0;
+        }
+
+        .nav-item {
+            padding: 15px 20px;
+            cursor: pointer;
+            transition: 0.2s;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            font-size: 16px;
+        }
+
+        .nav-item:hover,
+        .nav-item.active {
+            background: var(--secondary);
+            border-left: 4px solid var(--accent);
+        }
+
+        .nav-item i {
+            font-size: 20px;
+        }
+
+        /* Main Content */
+        .main-content {
+            margin-left: var(--sidebar-width);
+            flex-grow: 1;
+            padding: 30px;
+            overflow-y: auto;
+        }
+
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+        }
+
+        .page-title {
+            margin: 0;
+            font-size: 28px;
+            color: var(--primary);
+        }
+
+        /* Dashboard Cards */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .stat-card {
+            background: var(--white);
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .stat-icon {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            color: var(--white);
+        }
+
+        .bg-blue {
+            background: #1976D2;
+        }
+
+        .bg-green {
+            background: #388E3C;
+        }
+
+        .bg-orange {
+            background: #F57C00;
+        }
+
+        .stat-info h3 {
+            margin: 0;
+            font-size: 32px;
+        }
+
+        .stat-info p {
+            margin: 0;
+            color: #666;
+            font-size: 14px;
+        }
+
+        /* Content Sections */
+        .section {
+            display: none;
+        }
+
+        .section.active {
+            display: block;
+            animation: fadeIn 0.3s;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Forms & Cards */
+        .card {
+            background: var(--white);
+            border-radius: 10px;
+            padding: 25px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+        }
+
+        .card h2 {
+            margin-top: 0;
+            color: var(--primary);
+            border-bottom: 1px solid #eee;
+            padding-bottom: 15px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            font-size: 14px;
+        }
+
+        input[type="text"],
+        textarea {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            font-size: 15px;
+            box-sizing: border-box;
+            transition: 0.3s;
+        }
+
+        input:focus,
+        textarea:focus {
+            border-color: var(--primary);
+            outline: none;
+        }
+
+        .btn {
+            background-color: var(--primary);
+            color: white;
+            padding: 12px 24px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 15px;
+            font-weight: 600;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            transition: 0.3s;
+        }
+
+        .btn:hover {
+            background-color: var(--secondary);
+            transform: translateY(-1px);
+        }
+
+        .btn-success {
+            background-color: #388E3C;
+        }
+
+        .btn-success:hover {
+            background-color: #2E7D32;
+        }
+
+        /* Toggles */
+        .toggle-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 20px;
+            border-bottom: 1px solid #f0f0f0;
+        }
+
+        .toggle-item:last-child {
+            border-bottom: none;
+        }
+
+        .toggle-info h4 {
+            margin: 0 0 5px 0;
+        }
+
+        .toggle-info p {
+            margin: 0;
+            font-size: 13px;
+            color: #777;
+        }
+
+        .switch {
+            position: relative;
+            display: inline-block;
+            width: 50px;
+            height: 28px;
+        }
+
+        .switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+
+        .slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: #ccc;
+            transition: .4s;
+            border-radius: 34px;
+        }
+
+        .slider:before {
+            position: absolute;
+            content: "";
+            height: 20px;
+            width: 20px;
+            left: 4px;
+            bottom: 4px;
+            background-color: white;
+            transition: .4s;
+            border-radius: 50%;
+        }
+
+        input:checked+.slider {
+            background-color: var(--accent);
+        }
+
+        input:checked+.slider:before {
+            transform: translateX(22px);
+        }
+
+        /* History List */
+        .history-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px;
+            background: #f8f9fa;
+            border-radius: 8px;
+            margin-bottom: 10px;
+        }
+
+        .history-date {
+            font-size: 12px;
+            color: #888;
+            margin-top: 4px;
+        }
+
+        .badge {
+            background: #e0e0e0;
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 12px;
+        }
+
+        /* Status Toast */
+        #status {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: #333;
+            color: white;
+            padding: 15px 25px;
+            border-radius: 8px;
+            display: none;
+            z-index: 1000;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="sidebar">
+        <div class="sidebar-header">
+            <i class="material-icons">admin_panel_settings</i>
+            Duka Admin
+        </div>
+        <ul class="nav-links">
+            <li class="nav-item active" onclick="showPage('dashboard')">
+                <i class="material-icons">dashboard</i> Dashboard
+            </li>
+            <li class="nav-item" onclick="showPage('notifications')">
+                <i class="material-icons">notifications_active</i> Notifications
+            </li>
+            <li class="nav-item" onclick="showPage('settings')">
+                <i class="material-icons">settings_remote</i> App Settings
+            </li>
+            <li class="nav-item" onclick="logout()" style="margin-top:auto; color:#ff8a80;">
+                <i class="material-icons">logout</i> Logout
+            </li>
+        </ul>
+    </div>
+
+    <div class="main-content">
+
+        <!-- DASHBOARD PAGE -->
+        <div id="dashboard" class="section active">
+            <div class="header">
+                <h1 class="page-title">Overview</h1>
+                <div class="date" id="currentDate"></div>
+            </div>
+
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-icon bg-blue"><i class="material-icons">campaign</i></div>
+                    <div class="stat-info">
+                        <h3 id="statTotal">0</h3>
+                        <p>Sent Notifications</p>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon bg-green"><i class="material-icons">people</i></div>
+                    <div class="stat-info">
+                        <h3>Active</h3>
+                        <p>App Status</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card">
+                <h2>Recent Activity</h2>
+                <div id="recentActivity">Loading...</div>
+            </div>
+        </div>
+
+        <!-- NOTIFICATIONS PAGE -->
+        <div id="notifications" class="section">
+            <div class="header">
+                <h1 class="page-title">Push Notifications</h1>
+            </div>
+
+            <div class="card">
+                <h2>Compose Message</h2>
+                <div class="form-group">
+                    <label>Title / Offer Name</label>
+                    <input type="text" id="notifTitle" placeholder="e.g. Flash Sale 50% Off!">
+                </div>
+
+                <div class="form-group">
+                    <label>Message Body</label>
+                    <textarea id="notifBody" rows="3" placeholder="Enter details..."></textarea>
+                </div>
+
+                <div class="form-group">
+                    <label>Image/Video URL (Optional)</label>
+                    <input type="text" id="notifMedia" placeholder="https://example.com/image.jpg">
+                </div>
+
+                <div class="form-group">
+                    <label>Target URL / Deep Link (Optional)</label>
+                    <input type="text" id="notifUrl" placeholder="https://dukalalikes.co.ke/offers">
+                    <small style="color:#666">User will be redirected here upon clicking.</small>
+                </div>
+
+                <div class="form-group">
+                    <label>Schedule Time (Leave empty to send NOW)</label>
+                    <input type="datetime-local" id="notifSchedule">
+                </div>
+
+                <div class="form-group">
+                    <label style="display:flex; align-items:center; gap:10px;">
+                        <input type="checkbox" id="notifHighAlert" style="width:auto;">
+                        🚨 High Alert Sound (Important Updates)
+                    </label>
+                </div>
+
+                <button class="btn" onclick="sendNotification()">
+                    <i class="material-icons">send</i> Send / Schedule Blast
+                </button>
+            </div>
+
+            <div class="card">
+                <h2>History</h2>
+                <div id="historyList"></div>
+            </div>
+        </div>
+
+        <!-- SETTINGS PAGE (Remote Config) -->
+        <div id="settings" class="section">
+            <div class="header">
+                <h1 class="page-title">App Configuration</h1>
+            </div>
+
+            <div class="card">
+                <h2>Feature Flags (Live Control)</h2>
+
+                <div class="toggle-item">
+                    <div class="toggle-info">
+                        <h4>🎄 Christmas Theme</h4>
+                        <p>Enable falling snow animation and red theme.</p>
+                    </div>
+                    <label class="switch">
+                        <input type="checkbox" id="christmasToggle">
+                        <span class="slider"></span>
+                    </label>
+                </div>
+
+                <div class="toggle-item">
+                    <div class="toggle-info">
+                        <h4>🔒 Restrict Admin Access</h4>
+                        <p>Block access to /wp-admin pages within the app.</p>
+                    </div>
+                    <label class="switch">
+                        <input type="checkbox" id="adminToggle">
+                        <span class="slider"></span>
+                    </label>
+                </div>
+
+                <div class="toggle-item">
+                    <div class="toggle-info">
+                        <h4>🚧 Maintenance Mode</h4>
+                        <p>Show maintenance screen to users.</p>
+                    </div>
+                    <label class="switch">
+                        <input type="checkbox" id="maintenanceToggle">
+                        <span class="slider"></span>
+                    </label>
+                </div>
+
+                <div class="form-group" style="padding: 20px 0;">
+                    <label>Maintenance Logo URL</label>
+                    <input type="text" id="appLogoUrl" placeholder="https://... (Leave empty for default)">
+                </div>
+
+                <div class="form-group">
+                    <label>WhatsApp Number (Fallback)</label>
+                    <input type="text" id="whatsappNumber" placeholder="+254...">
+                </div>
+
+                <hr style="border:0; border-top:1px solid #eee; margin: 20px 0;">
+
+                <h3>🚦 Live Service Status</h3>
+                <div class="status-toggles" style="display:grid; grid-template-columns: 1fr 1fr; gap:10px;">
+                    <div class="toggle-item">
+                        <span>Instagram</span>
+                        <select id="statusIG" onchange="saveStatus()">
+                            <option value="operational">✅ Operational</option>
+                            <option value="slow">⚠️ Slow</option>
+                            <option value="down">❌ Down</option>
+                        </select>
+                    </div>
+                    <div class="toggle-item">
+                        <span>TikTok</span>
+                        <select id="statusTT" onchange="saveStatus()">
+                            <option value="operational">✅ Operational</option>
+                            <option value="slow">⚠️ Slow</option>
+                            <option value="down">❌ Down</option>
+                        </select>
+                    </div>
+                    <div class="toggle-item">
+                        <span>Facebook</span>
+                        <select id="statusFB" onchange="saveStatus()">
+                            <option value="operational">✅ Operational</option>
+                            <option value="slow">⚠️ Slow</option>
+                            <option value="down">❌ Down</option>
+                        </select>
+                    </div>
+                    <div class="toggle-item">
+                        <span>YouTube</span>
+                        <select id="statusYT" onchange="saveStatus()">
+                            <option value="operational">✅ Operational</option>
+                            <option value="slow">⚠️ Slow</option>
+                            <option value="down">❌ Down</option>
+                        </select>
+                    </div>
+                </div>
+
+                <hr style="border:0; border-top:1px solid #eee; margin: 20px 0;">
+
+                <h3>🎟️ Promo Codes</h3>
+                <div class="form-group" style="display:flex; gap:10px;">
+                    <input type="text" id="couponCode" placeholder="Code (e.g. SALE50)">
+                    <input type="number" id="couponDiscount" placeholder="%" style="width:80px;">
+                    <button class="btn" style="width:auto;" onclick="addCoupon()">Add</button>
+                </div>
+                <div id="couponList" style="margin-top:10px;"></div>
+
+                <hr style="border:0; border-top:1px solid #eee; margin: 20px 0;">
+
+                <h3>⭐ User Reviews (Testimonials)</h3>
+                <div class="form-group">
+                    <input type="text" id="reviewName" placeholder="Client Name">
+                    <input type="number" id="reviewRating" placeholder="5" min="1" max="5"
+                        style="width:60px; margin-left:10px;">
+                </div>
+                <div class="form-group">
+                    <textarea id="reviewText" rows="2" placeholder="Review text..."></textarea>
+                </div>
+                <button class="btn" style="background:#4CAF50;" onclick="addReview()">Add Review</button>
+
+                <div id="reviewsList"
+                    style="margin-top:20px; max-height:300px; overflow-y:auto; border:1px solid #eee; padding:10px;">
+                    <!-- Reviews loaded here -->
+                </div>
+
+                <hr style="border:0; border-top:1px solid #eee; margin: 20px 0;">
+
+                <h3>💬 Chat Integration (Tawk.to)</h3>
+                <div class="toggle-item">
+                    <div class="toggle-info">
+                        <h4>Enable In-App Chat</h4>
+                        <p>Replace WhatsApp with Tawk.to widget</p>
+                    </div>
+                    <label class="switch">
+                        <input type="checkbox" id="tawkToggle">
+                        <span class="slider"></span>
+                    </label>
+                </div>
+                <div class="form-group">
+                    <label>Direct Chat Link Check</label>
+                    <input type="text" id="tawkLink" placeholder="https://tawk.to/chat/...">
+                </div>
+
+                <div class="form-group">
+                    <label>WhatsApp Number (Fallback)</label>
+                    <input type="text" id="whatsappNumber" placeholder="+254...">
+                </div>
+
+                <hr style="border:0; border-top:1px solid #eee; margin: 20px 0;">
+
+                <h3>📢 App Updates</h3>
+                <div class="form-group">
+                    <label>Latest Version Code (Current: 1)</label>
+                    <input type="number" id="latestVersion" placeholder="e.g. 2">
+                </div>
+                <div class="form-group">
+                    <label>Update Download URL</label>
+                    <input type="text" id="updateUrl" placeholder="https://play.google.com/store/apps/...">
+                </div>
+                <div class="toggle-item">
+                    <div class="toggle-info">
+                        <h4>Force Update</h4>
+                        <p>Users MUST update to continue using the app.</p>
+                    </div>
+                    <label class="switch">
+                        <input type="checkbox" id="forceUpdateToggle">
+                        <span class="slider"></span>
+                    </label>
+                </div>
+
+                <hr style="border:0; border-top:1px solid #eee; margin: 20px 0;">
+
+                <div class="form-group">
+                    <label>🏠 Home Screen Announcement</label>
+                    <input type="text" id="bannerText" placeholder="Enter text to display on app home...">
+                </div>
+
+                <div style="padding: 20px;">
+                    <button class="btn btn-success" onclick="saveConfig()">
+                        <i class="material-icons">save</i> Save & Publish Changes
+                    </button>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <div id="status">Action Successful</div>
+
+    <script>
+        // --- Auth Check ---
+        fetch('/api/check-auth').then(res => res.json()).then(data => {
+            if (!data.loggedIn) window.location.href = '/login.html';
+        }).catch(e => window.location.href = '/login.html');
+
+        async function logout() {
+            await fetch('/api/logout', { method: 'POST' });
+            window.location.href = '/login.html';
+        }
+
+        // --- Navigation ---
+        function showPage(pageId) {
+            document.querySelectorAll('.section').forEach(el => el.classList.remove('active'));
+            document.getElementById(pageId).classList.add('active');
+
+            document.querySelectorAll('.nav-item').forEach(el => el.classList.remove('active'));
+            // Find basic match for sidebar highlight (simple logic)
+            // event.currentTarget.classList.add('active'); 
+        }
+
+        // --- Init ---
+        const dateOpts = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+        document.getElementById('currentDate').innerText = new Date().toLocaleDateString('en-US', dateOpts);
+
+        // Load Data
+        // Load Data
+        loadStats();
+        loadHistory();
+        loadConfig();
+        loadReviews();
+        loadStatus();
+        loadCoupons();
+
+        function toast(msg) {
+            const el = document.getElementById('status');
+            el.innerText = msg;
+            el.style.display = 'block';
+            setTimeout(() => el.style.display = 'none', 3000);
+        }
+
+        // --- API Calls ---
+
+        // COUPONS
+        async function loadCoupons() {
+            try {
+                const res = await fetch('/api/coupons');
+                const data = await res.json();
+                document.getElementById('couponList').innerHTML = data.map(c => `
+                <div style="background:#f4f4f4; padding:5px 10px; margin:5px 0; border-radius:5px; display:flex; justify-content:space-between; align-items:center;">
+                    <span><b>${c.code}</b> (${c.discount}% OFF)</span>
+                    <i class="material-icons" onclick="deleteCoupon('${c.id}')" style="color:red; cursor:pointer; font-size:18px;">delete</i>
+                </div>
+            `).join('');
+            } catch (e) { console.error(e); }
+        }
+
+        async function addCoupon() {
+            const code = document.getElementById('couponCode').value;
+            const discount = document.getElementById('couponDiscount').value;
+            if (!code || !discount) return;
+            await fetch('/api/coupons', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ code, discount })
+            });
+            document.getElementById('couponCode').value = '';
+            document.getElementById('couponDiscount').value = '';
+            loadCoupons();
+            toast('Coupon Added 🎟️');
+        }
+
+        async function deleteCoupon(id) {
+            if (!confirm("Remove coupon?")) return;
+            await fetch(`/api/coupons/${id}`, { method: 'DELETE' });
+            loadCoupons();
+        }
+
+        // REVIEWS
+        async function loadReviews() {
+            try {
+                const res = await fetch('/api/reviews');
+                const data = await res.json();
+                const div = document.getElementById('reviewsList');
+                div.innerHTML = data.map(r => `
+                <div style="padding:10px; border-bottom:1px solid #eee; display:flex; justify-content:space-between; align-items:start; background:${r.approved ? '#f0fff4' : '#fff3e0'};">
+                    <div>
+                        <strong>${r.name}</strong> (${r.rating}⭐) 
+                        ${r.approved ? '<span style="color:green; font-weight:bold;">(Live)</span>' : '<span style="color:orange; font-weight:bold;">(Pending)</span>'}
+                        <br>
+                        <small>${r.text}</small>
+                    </div>
+                    <div>
+                        ${!r.approved ? `<button onclick="approveReview('${r.id}')" style="color:green; border:none; background:none; cursor:pointer; font-size:16px; margin-right:10px;">✅</button>` : ''}
+                        <button onclick="deleteReview('${r.id}')" style="background:none; border:none; color:red; cursor:pointer; font-size:16px;">❌</button>
+                    </div>
+                </div>
+            `).join('');
+            } catch (e) { console.error(e); }
+        }
+
+        async function approveReview(id) {
+            await fetch(`/api/reviews/${id}/approve`, { method: 'PUT' });
+            loadReviews();
+            toast('Review Approved ✅');
+        }
+
+        async function addReview() {
+            const name = document.getElementById('reviewName').value;
+            const text = document.getElementById('reviewText').value;
+            const rating = document.getElementById('reviewRating').value;
+            if (!name || !text) return alert('Fill fields');
+
+            await fetch('/api/reviews', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ name, text, rating })
+            });
+            document.getElementById('reviewName').value = '';
+            document.getElementById('reviewText').value = '';
+            loadReviews();
+            toast('Review Added');
+        }
+
+        async function deleteReview(id) {
+            if (!confirm('Delete?')) return;
+            await fetch(`/api/reviews/${id}`, { method: 'DELETE' });
+            loadReviews();
+        }
+
+        // SERVICE STATUS
+        async function loadStatus() {
+            try {
+                const res = await fetch('/api/service-status');
+                const data = await res.json();
+                document.getElementById('statusIG').value = data.instagram || 'operational';
+                document.getElementById('statusTT').value = data.tiktok || 'operational';
+                document.getElementById('statusFB').value = data.facebook || 'operational';
+                document.getElementById('statusYT').value = data.youtube || 'operational';
+            } catch (e) { console.error(e); }
+        }
+
+        async function saveStatus() {
+            const data = {
+                instagram: document.getElementById('statusIG').value,
+                tiktok: document.getElementById('statusTT').value,
+                facebook: document.getElementById('statusFB').value,
+                youtube: document.getElementById('statusYT').value
+            };
+            await fetch('/api/service-status', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(data)
+            });
+            toast('Status Updated');
+        }
+
+        async function loadStats() {
+            try {
+                const res = await fetch('/api/stats');
+                if (res.status === 401) return logout();
+                const data = await res.json();
+                document.getElementById('statTotal').innerText = data.total_notifications || 0;
+            } catch (e) { console.error(e); }
+        }
+
+        async function loadConfig() {
+            try {
+                const res = await fetch('/api/config');
+                if (res.status === 401) return logout();
+                const data = await res.json();
+
+                // Flags
+                document.getElementById('christmasToggle').checked = data.christmas_enabled;
+                document.getElementById('adminToggle').checked = data.admin_hidden;
+                document.getElementById('maintenanceToggle').checked = data.maintenance_mode;
+                document.getElementById('tawkToggle').checked = data.use_tawk;
+                document.getElementById('forceUpdateToggle').checked = data.force_update;
+
+                // Text
+                document.getElementById('bannerText').value = data.banner_text || "";
+                document.getElementById('appLogoUrl').value = data.app_logo_url || "";
+                document.getElementById('tawkLink').value = data.tawk_link || "";
+                document.getElementById('whatsappNumber').value = data.whatsapp_number || "+254702716440";
+                document.getElementById('latestVersion').value = data.latest_version_code || "1";
+                document.getElementById('updateUrl').value = data.update_url || "";
+
+            } catch (e) { console.error(e); }
+        }
+
+        async function saveConfig() {
+            const data = {
+                christmas_enabled: document.getElementById('christmasToggle').checked,
+                admin_hidden: document.getElementById('adminToggle').checked,
+                maintenance_mode: document.getElementById('maintenanceToggle').checked,
+                banner_text: document.getElementById('bannerText').value,
+
+                app_logo_url: document.getElementById('appLogoUrl').value,
+                latest_version_code: document.getElementById('latestVersion').value,
+                update_url: document.getElementById('updateUrl').value,
+                force_update: document.getElementById('forceUpdateToggle').checked,
+
+                tawk_link: document.getElementById('tawkLink').value,
+                use_tawk: document.getElementById('tawkToggle').checked,
+                whatsapp_number: document.getElementById('whatsappNumber').value
+            };
+
+            try {
+                const res = await fetch('/api/update-config', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(data)
+                });
+                if (res.status === 401) return logout();
+                const json = await res.json();
+                if (json.success) toast('Configuration Saved! 🚀');
+                else toast('Error Saving Config');
+            } catch (e) { toast('Network Error'); }
+        }
+
+        async function sendNotification() {
+            const title = document.getElementById('notifTitle').value;
+            const body = document.getElementById('notifBody').value;
+            const mediaUrl = document.getElementById('notifMedia').value;
+            const targetUrl = document.getElementById('notifUrl').value;
+            const scheduledTime = document.getElementById('notifSchedule').value;
+            const isHighAlert = document.getElementById('notifHighAlert').checked;
+
+            if (!title || !body) return alert("Enter title and body");
+
+            try {
+                const res = await fetch('/api/send-notification', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        title,
+                        body,
+                        type: mediaUrl ? 'image' : 'text',
+                        mediaUrl,
+                        targetUrl,
+                        scheduledTime,
+                        isHighAlert
+                    })
+                });
+                if (res.status === 401) return logout();
+                const json = await res.json();
+                if (json.success) {
+                    toast(scheduledTime ? 'Notification Scheduled!' : 'Notification Sent!');
+                    document.getElementById('notifTitle').value = '';
+                    document.getElementById('notifBody').value = '';
+                    document.getElementById('notifMedia').value = '';
+                    document.getElementById('notifUrl').value = '';
+                    document.getElementById('notifSchedule').value = '';
+                    document.getElementById('notifHighAlert').checked = false;
+                    loadHistory();
+                    loadStats();
+                } else {
+                    toast('Error: ' + json.error);
+                }
+            } catch (e) { toast('Network Error'); }
+        }
+
+        async function loadHistory() {
+            const container = document.getElementById('historyList');
+            const recentContainer = document.getElementById('recentActivity');
+            try {
+                const res = await fetch('/api/notifications');
+                if (res.status === 401) return logout();
+                const list = await res.json();
+
+                if (list.length === 0) {
+                    container.innerHTML = '<p>No history.</p>';
+                    return;
+                }
+
+                let html = '';
+                list.forEach(item => {
+                    const date = item.date ? new Date(item.date).toLocaleString() : 'Recent';
+                    html += `
+                    <div class="history-item">
+                        <div>
+                            <strong>${item.title}</strong>
+                            <div class="history-date">${date}</div>
+                            <div>${item.body}</div>
+                        </div>
+                        <button class="btn btn-delete" style="padding:5px 10px; font-size:12px;" onclick="deleteItem('${item.id}')">Delete</button>
+                    </div>
+                `;
+                });
+                container.innerHTML = html;
+
+                // Recent (Last 3)
+                let recentHtml = '';
+                list.slice(0, 3).forEach(item => {
+                    recentHtml += `<div style="padding:10px; border-bottom:1px solid #eee;">
+                    <strong>${item.title}</strong> - <span style="color:#666">${new Date(item.date).toLocaleDateString()}</span>
+                 </div>`;
+                });
+                recentContainer.innerHTML = recentHtml || 'No recent activity';
+
+            } catch (e) { console.error(e); }
+        }
+
+        async function deleteItem(id) {
+            if (!confirm('Delete this record?')) return;
+            try {
+                await fetch('/api/notifications/' + id, { method: 'DELETE' });
+                loadHistory();
+                loadStats();
+            } catch (e) { toast('Error deleting'); }
+        }
+    </script>
+
+</body>
+
+</html>

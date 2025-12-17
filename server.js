@@ -365,12 +365,40 @@ app.get('/api/service-status', async (req, res) => {
     } catch (e) { res.status(500).send({ error: e.message }); }
 });
 
-app.post('/api/service-status', isAuthenticated, async (req, res) => {
+// --- 7. ORDER TRACKING ---
+app.post('/api/orders/track', async (req, res) => {
     try {
-        await db.collection('system').doc('service_status').set(req.body, { merge: true });
-        res.send({ success: true });
+        const { orderId } = req.body;
+        // In a real app, you would query your SMM provider API here.
+        // For now, we simulate a status or fetch from a local 'orders' collection if you were saving them.
+        // Let's check our local mock DB first:
+        const doc = await db.collection('orders').doc(String(orderId)).get();
+        if (doc.exists) {
+            res.json(doc.data());
+        } else {
+            // Mock Response for Demo
+            res.json({
+                orderId,
+                status: 'Processing',
+                service: 'Premium Instagram Likes',
+                start_count: 520,
+                remains: 40
+            });
+        }
     } catch (e) { res.status(500).send({ error: e.message }); }
 });
+
+// --- 8. TASK & EARN ---
+app.post('/api/user/earn', isAuthenticated, async (req, res) => {
+    try {
+        const { userId, taskType, points } = req.body;
+        // Verify task (e.g., check if they already did "daily_checkin" today)
+        // await db.collection('users').doc(userId).collection('earnings').add({ ... });
+        // Award Points
+        res.send({ success: true, message: `Awarded ${points} points for ${taskType}` });
+    } catch (e) { res.status(500).send({ error: e.message }); }
+});
+
 
 app.listen(port, () => {
     console.log(`Server running on port ${port}`);

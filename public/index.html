@@ -361,7 +361,10 @@
                 <i class="material-icons">dashboard</i> Dashboard
             </li>
             <li class="nav-item" onclick="showPage('notifications')">
-                <i class="material-icons">notifications_active</i> Notifications
+                <i class="material-icons">rss_feed</i> Community Updates
+            </li>
+            <li class="nav-item" onclick="showPage('tasks')">
+                <i class="material-icons">monetization_on</i> Task & Earn
             </li>
             <li class="nav-item" onclick="showPage('settings')">
                 <i class="material-icons">settings_remote</i> App Settings
@@ -386,7 +389,7 @@
                     <div class="stat-icon bg-blue"><i class="material-icons">campaign</i></div>
                     <div class="stat-info">
                         <h3 id="statTotal">0</h3>
-                        <p>Sent Notifications</p>
+                        <p>Total Posts/Alerts</p>
                     </div>
                 </div>
                 <div class="stat-card">
@@ -407,11 +410,11 @@
         <!-- NOTIFICATIONS PAGE -->
         <div id="notifications" class="section">
             <div class="header">
-                <h1 class="page-title">Push Notifications</h1>
+                <h1 class="page-title">Community Updates & Alerts</h1>
             </div>
 
             <div class="card">
-                <h2>Compose Message</h2>
+                <h2>Create New Post</h2>
                 <div class="form-group">
                     <label>Title / Offer Name</label>
                     <input type="text" id="notifTitle" placeholder="e.g. Flash Sale 50% Off!">
@@ -456,273 +459,309 @@
             </div>
         </div>
 
-        <!-- SETTINGS PAGE (Remote Config) -->
-        <div id="settings" class="section">
+        <!-- TASKS PAGE -->
+        <div id="tasks" class="section">
             <div class="header">
-                <h1 class="page-title">App Configuration</h1>
+                <h1 class="page-title">Task & Earn Management</h1>
             </div>
 
             <div class="card">
-                <h2>Feature Flags (Live Control)</h2>
-
-                <div class="toggle-item">
-                    <div class="toggle-info">
-                        <h4>🎄 Christmas Theme</h4>
-                        <p>Enable falling snow animation and red theme.</p>
-                    </div>
-                    <label class="switch">
-                        <input type="checkbox" id="christmasToggle">
-                        <span class="slider"></span>
-                    </label>
-                </div>
-
-                <div class="toggle-item">
-                    <div class="toggle-info">
-                        <h4>🔒 Restrict Admin Access</h4>
-                        <p>Block access to /wp-admin pages within the app.</p>
-                    </div>
-                    <label class="switch">
-                        <input type="checkbox" id="adminToggle">
-                        <span class="slider"></span>
-                    </label>
-                </div>
-
-                <div class="toggle-item">
-                    <div class="toggle-info">
-                        <h4>🚧 Maintenance Mode</h4>
-                        <p>Show maintenance screen to users.</p>
-                    </div>
-                    <label class="switch">
-                        <input type="checkbox" id="maintenanceToggle">
-                        <span class="slider"></span>
-                    </label>
-                </div>
-
-                <div class="form-group" style="padding: 20px 0;">
-                    <label>Maintenance Logo URL</label>
-                    <input type="text" id="appLogoUrl" placeholder="https://... (Leave empty for default)">
-                </div>
-
+                <h2>Add New Task</h2>
                 <div class="form-group">
-                    <label>WhatsApp Number (Fallback)</label>
-                    <input type="text" id="whatsappNumber" placeholder="+254...">
-                </div>
-
-                <hr style="border:0; border-top:1px solid #eee; margin: 20px 0;">
-
-                <h3>🚦 Live Service Status</h3>
-                <div class="status-toggles" style="display:grid; grid-template-columns: 1fr 1fr; gap:10px;">
-                    <div class="toggle-item">
-                        <span>Instagram</span>
-                        <select id="statusIG" onchange="saveStatus()">
-                            <option value="operational">✅ Operational</option>
-                            <option value="slow">⚠️ Slow</option>
-                            <option value="down">❌ Down</option>
-                        </select>
-                    </div>
-                    <div class="toggle-item">
-                        <span>TikTok</span>
-                        <select id="statusTT" onchange="saveStatus()">
-                            <option value="operational">✅ Operational</option>
-                            <option value="slow">⚠️ Slow</option>
-                            <option value="down">❌ Down</option>
-                        </select>
-                    </div>
-                    <div class="toggle-item">
-                        <span>Facebook</span>
-                        <select id="statusFB" onchange="saveStatus()">
-                            <option value="operational">✅ Operational</option>
-                            <option value="slow">⚠️ Slow</option>
-                            <option value="down">❌ Down</option>
-                        </select>
-                    </div>
-                    <div class="toggle-item">
-                        <span>YouTube</span>
-                        <select id="statusYT" onchange="saveStatus()">
-                            <option value="operational">✅ Operational</option>
-                            <option value="slow">⚠️ Slow</option>
-                            <option value="down">❌ Down</option>
-                        </select>
-                    </div>
-                </div>
-
-                <hr style="border:0; border-top:1px solid #eee; margin: 20px 0;">
-
-                <h3>🎟️ Promo Codes</h3>
-                <div class="form-group" style="display:flex; gap:10px;">
-                    <input type="text" id="couponCode" placeholder="Code (e.g. SALE50)">
-                    <input type="number" id="couponDiscount" placeholder="%" style="width:80px;">
-                    <button class="btn" style="width:auto;" onclick="addCoupon()">Add</button>
-                </div>
-                <div id="couponList" style="margin-top:10px;"></div>
-
-                <hr style="border:0; border-top:1px solid #eee; margin: 20px 0;">
-
-                <h3>⭐ User Reviews (Testimonials)</h3>
-                <div class="form-group">
-                    <input type="text" id="reviewName" placeholder="Client Name">
-                    <input type="number" id="reviewRating" placeholder="5" min="1" max="5"
-                        style="width:60px; margin-left:10px;">
+                    <label>Task Title</label>
+                    <input type="text" id="taskTitle" placeholder="e.g. Watch Video">
                 </div>
                 <div class="form-group">
-                    <textarea id="reviewText" rows="2" placeholder="Review text..."></textarea>
+                    <label>Reward Points</label>
+                    <input type="number" id="taskPoints" placeholder="10">
                 </div>
-                <button class="btn" style="background:#4CAF50;" onclick="addReview()">Add Review</button>
-
-                <div id="reviewsList"
-                    style="margin-top:20px; max-height:300px; overflow-y:auto; border:1px solid #eee; padding:10px;">
-                    <!-- Reviews loaded here -->
+                <div class="form-group">
+                    <label>Action URL (Optional)</label>
+                    <input type="text" id="taskUrl" placeholder="https://youtube.com/...">
                 </div>
+                <button class="btn" onclick="toast('Task Added (Demo)')">Publish Task</button>
+            </div>
 
-                <hr style="border:0; border-top:1px solid #eee; margin: 20px 0;">
-
-                <h3>💬 Chat Integration (Tawk.to)</h3>
-                <div class="toggle-item">
-                    <div class="toggle-info">
-                        <h4>Enable In-App Chat</h4>
-                        <p>Replace WhatsApp with Tawk.to widget</p>
+            <div class="card">
+                <h2>Active Tasks</h2>
+                <div id="taskList">
+                    <div class="history-item">
+                        <div>
+                            <strong>Daily Check-in</strong>
+                            <div class="history-date">Reward: 5 Points</div>
+                        </div>
+                        <span class="badge" style="background:#e8f5e9; color:green;">Active</span>
                     </div>
-                    <label class="switch">
-                        <input type="checkbox" id="tawkToggle">
-                        <span class="slider"></span>
-                    </label>
-                </div>
-                <div class="form-group">
-                    <label>Direct Chat Link Check</label>
-                    <input type="text" id="tawkLink" placeholder="https://tawk.to/chat/...">
-                </div>
-
-                <div class="form-group">
-                    <label>WhatsApp Number (Fallback)</label>
-                    <input type="text" id="whatsappNumber" placeholder="+254...">
-                </div>
-
-                <hr style="border:0; border-top:1px solid #eee; margin: 20px 0;">
-
-                <h3>📢 App Updates</h3>
-                <div class="form-group">
-                    <label>Latest Version Code (Current: 1)</label>
-                    <input type="number" id="latestVersion" placeholder="e.g. 2">
-                </div>
-                <div class="form-group">
-                    <label>Update Download URL</label>
-                    <input type="text" id="updateUrl" placeholder="https://play.google.com/store/apps/...">
-                </div>
-                <div class="toggle-item">
-                    <div class="toggle-info">
-                        <h4>Force Update</h4>
-                        <p>Users MUST update to continue using the app.</p>
-                    </div>
-                    <label class="switch">
-                        <input type="checkbox" id="forceUpdateToggle">
-                        <span class="slider"></span>
-                    </label>
-                </div>
-
-                <hr style="border:0; border-top:1px solid #eee; margin: 20px 0;">
-
-                <div class="form-group">
-                    <label>🏠 Home Screen Announcement</label>
-                    <input type="text" id="bannerText" placeholder="Enter text to display on app home...">
-                </div>
-
-                <div style="padding: 20px;">
-                    <button class="btn btn-success" onclick="saveConfig()">
-                        <i class="material-icons">save</i> Save & Publish Changes
-                    </button>
                 </div>
             </div>
+
+            <!-- SETTINGS PAGE (Remote Config) -->
+            <div id="settings" class="section">
+                <div class="header">
+                    <h1 class="page-title">App Configuration</h1>
+                </div>
+
+                <div class="card">
+                    <h2>Feature Flags (Live Control)</h2>
+
+                    <div class="toggle-item">
+                        <div class="toggle-info">
+                            <h4>🎄 Christmas Theme</h4>
+                            <p>Enable falling snow animation and red theme.</p>
+                        </div>
+                        <label class="switch">
+                            <input type="checkbox" id="christmasToggle">
+                            <span class="slider"></span>
+                        </label>
+                    </div>
+
+                    <div class="toggle-item">
+                        <div class="toggle-info">
+                            <h4>🔒 Restrict Admin Access</h4>
+                            <p>Block access to /wp-admin pages within the app.</p>
+                        </div>
+                        <label class="switch">
+                            <input type="checkbox" id="adminToggle">
+                            <span class="slider"></span>
+                        </label>
+                    </div>
+
+                    <div class="toggle-item">
+                        <div class="toggle-info">
+                            <h4>🚧 Maintenance Mode</h4>
+                            <p>Show maintenance screen to users.</p>
+                        </div>
+                        <label class="switch">
+                            <input type="checkbox" id="maintenanceToggle">
+                            <span class="slider"></span>
+                        </label>
+                    </div>
+
+                    <div class="form-group" style="padding: 20px 0;">
+                        <label>Maintenance Logo URL</label>
+                        <input type="text" id="appLogoUrl" placeholder="https://... (Leave empty for default)">
+                    </div>
+
+                    <div class="form-group">
+                        <label>WhatsApp Number (Fallback)</label>
+                        <input type="text" id="whatsappNumber" placeholder="+254...">
+                    </div>
+
+                    <hr style="border:0; border-top:1px solid #eee; margin: 20px 0;">
+
+                    <h3>🚦 Live Service Status</h3>
+                    <div class="status-toggles" style="display:grid; grid-template-columns: 1fr 1fr; gap:10px;">
+                        <div class="toggle-item">
+                            <span>Instagram</span>
+                            <select id="statusIG" onchange="saveStatus()">
+                                <option value="operational">✅ Operational</option>
+                                <option value="slow">⚠️ Slow</option>
+                                <option value="down">❌ Down</option>
+                            </select>
+                        </div>
+                        <div class="toggle-item">
+                            <span>TikTok</span>
+                            <select id="statusTT" onchange="saveStatus()">
+                                <option value="operational">✅ Operational</option>
+                                <option value="slow">⚠️ Slow</option>
+                                <option value="down">❌ Down</option>
+                            </select>
+                        </div>
+                        <div class="toggle-item">
+                            <span>Facebook</span>
+                            <select id="statusFB" onchange="saveStatus()">
+                                <option value="operational">✅ Operational</option>
+                                <option value="slow">⚠️ Slow</option>
+                                <option value="down">❌ Down</option>
+                            </select>
+                        </div>
+                        <div class="toggle-item">
+                            <span>YouTube</span>
+                            <select id="statusYT" onchange="saveStatus()">
+                                <option value="operational">✅ Operational</option>
+                                <option value="slow">⚠️ Slow</option>
+                                <option value="down">❌ Down</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <hr style="border:0; border-top:1px solid #eee; margin: 20px 0;">
+
+                    <h3>🎟️ Promo Codes</h3>
+                    <div class="form-group" style="display:flex; gap:10px;">
+                        <input type="text" id="couponCode" placeholder="Code (e.g. SALE50)">
+                        <input type="number" id="couponDiscount" placeholder="%" style="width:80px;">
+                        <button class="btn" style="width:auto;" onclick="addCoupon()">Add</button>
+                    </div>
+                    <div id="couponList" style="margin-top:10px;"></div>
+
+                    <hr style="border:0; border-top:1px solid #eee; margin: 20px 0;">
+
+                    <h3>⭐ User Reviews (Testimonials)</h3>
+                    <div class="form-group">
+                        <input type="text" id="reviewName" placeholder="Client Name">
+                        <input type="number" id="reviewRating" placeholder="5" min="1" max="5"
+                            style="width:60px; margin-left:10px;">
+                    </div>
+                    <div class="form-group">
+                        <textarea id="reviewText" rows="2" placeholder="Review text..."></textarea>
+                    </div>
+                    <button class="btn" style="background:#4CAF50;" onclick="addReview()">Add Review</button>
+
+                    <div id="reviewsList"
+                        style="margin-top:20px; max-height:300px; overflow-y:auto; border:1px solid #eee; padding:10px;">
+                        <!-- Reviews loaded here -->
+                    </div>
+
+                    <hr style="border:0; border-top:1px solid #eee; margin: 20px 0;">
+
+                    <h3>💬 Chat Integration (Tawk.to)</h3>
+                    <div class="toggle-item">
+                        <div class="toggle-info">
+                            <h4>Enable In-App Chat</h4>
+                            <p>Replace WhatsApp with Tawk.to widget</p>
+                        </div>
+                        <label class="switch">
+                            <input type="checkbox" id="tawkToggle">
+                            <span class="slider"></span>
+                        </label>
+                    </div>
+                    <div class="form-group">
+                        <label>Direct Chat Link Check</label>
+                        <input type="text" id="tawkLink" placeholder="https://tawk.to/chat/...">
+                    </div>
+
+                    <div class="form-group">
+                        <label>WhatsApp Number (Fallback)</label>
+                        <input type="text" id="whatsappNumber" placeholder="+254...">
+                    </div>
+
+                    <hr style="border:0; border-top:1px solid #eee; margin: 20px 0;">
+
+                    <h3>📢 App Updates</h3>
+                    <div class="form-group">
+                        <label>Latest Version Code (Current: 1)</label>
+                        <input type="number" id="latestVersion" placeholder="e.g. 2">
+                    </div>
+                    <div class="form-group">
+                        <label>Update Download URL</label>
+                        <input type="text" id="updateUrl" placeholder="https://play.google.com/store/apps/...">
+                    </div>
+                    <div class="toggle-item">
+                        <div class="toggle-info">
+                            <h4>Force Update</h4>
+                            <p>Users MUST update to continue using the app.</p>
+                        </div>
+                        <label class="switch">
+                            <input type="checkbox" id="forceUpdateToggle">
+                            <span class="slider"></span>
+                        </label>
+                    </div>
+
+                    <hr style="border:0; border-top:1px solid #eee; margin: 20px 0;">
+
+                    <div class="form-group">
+                        <label>🏠 Home Screen Announcement</label>
+                        <input type="text" id="bannerText" placeholder="Enter text to display on app home...">
+                    </div>
+
+                    <div style="padding: 20px;">
+                        <button class="btn btn-success" onclick="saveConfig()">
+                            <i class="material-icons">save</i> Save & Publish Changes
+                        </button>
+                    </div>
+                </div>
+            </div>
+
         </div>
 
-    </div>
+        <div id="status">Action Successful</div>
 
-    <div id="status">Action Successful</div>
+        <script>
+            // --- Auth Check ---
+            fetch('/api/check-auth').then(res => res.json()).then(data => {
+                if (!data.loggedIn) window.location.href = '/login.html';
+            }).catch(e => window.location.href = '/login.html');
 
-    <script>
-        // --- Auth Check ---
-        fetch('/api/check-auth').then(res => res.json()).then(data => {
-            if (!data.loggedIn) window.location.href = '/login.html';
-        }).catch(e => window.location.href = '/login.html');
+            async function logout() {
+                await fetch('/api/logout', { method: 'POST' });
+                window.location.href = '/login.html';
+            }
 
-        async function logout() {
-            await fetch('/api/logout', { method: 'POST' });
-            window.location.href = '/login.html';
-        }
+            // --- Navigation ---
+            function showPage(pageId) {
+                document.querySelectorAll('.section').forEach(el => el.classList.remove('active'));
+                document.getElementById(pageId).classList.add('active');
 
-        // --- Navigation ---
-        function showPage(pageId) {
-            document.querySelectorAll('.section').forEach(el => el.classList.remove('active'));
-            document.getElementById(pageId).classList.add('active');
+                document.querySelectorAll('.nav-item').forEach(el => el.classList.remove('active'));
+                // Find basic match for sidebar highlight (simple logic)
+                // event.currentTarget.classList.add('active'); 
+            }
 
-            document.querySelectorAll('.nav-item').forEach(el => el.classList.remove('active'));
-            // Find basic match for sidebar highlight (simple logic)
-            // event.currentTarget.classList.add('active'); 
-        }
+            // --- Init ---
+            const dateOpts = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+            document.getElementById('currentDate').innerText = new Date().toLocaleDateString('en-US', dateOpts);
 
-        // --- Init ---
-        const dateOpts = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
-        document.getElementById('currentDate').innerText = new Date().toLocaleDateString('en-US', dateOpts);
+            // Load Data
+            // Load Data
+            loadStats();
+            loadHistory();
+            loadConfig();
+            loadReviews();
+            loadStatus();
+            loadCoupons();
 
-        // Load Data
-        // Load Data
-        loadStats();
-        loadHistory();
-        loadConfig();
-        loadReviews();
-        loadStatus();
-        loadCoupons();
+            function toast(msg) {
+                const el = document.getElementById('status');
+                el.innerText = msg;
+                el.style.display = 'block';
+                setTimeout(() => el.style.display = 'none', 3000);
+            }
 
-        function toast(msg) {
-            const el = document.getElementById('status');
-            el.innerText = msg;
-            el.style.display = 'block';
-            setTimeout(() => el.style.display = 'none', 3000);
-        }
+            // --- API Calls ---
 
-        // --- API Calls ---
-
-        // COUPONS
-        async function loadCoupons() {
-            try {
-                const res = await fetch('/api/coupons');
-                const data = await res.json();
-                document.getElementById('couponList').innerHTML = data.map(c => `
+            // COUPONS
+            async function loadCoupons() {
+                try {
+                    const res = await fetch('/api/coupons');
+                    const data = await res.json();
+                    document.getElementById('couponList').innerHTML = data.map(c => `
                 <div style="background:#f4f4f4; padding:5px 10px; margin:5px 0; border-radius:5px; display:flex; justify-content:space-between; align-items:center;">
                     <span><b>${c.code}</b> (${c.discount}% OFF)</span>
                     <i class="material-icons" onclick="deleteCoupon('${c.id}')" style="color:red; cursor:pointer; font-size:18px;">delete</i>
                 </div>
             `).join('');
-            } catch (e) { console.error(e); }
-        }
+                } catch (e) { console.error(e); }
+            }
 
-        async function addCoupon() {
-            const code = document.getElementById('couponCode').value;
-            const discount = document.getElementById('couponDiscount').value;
-            if (!code || !discount) return;
-            await fetch('/api/coupons', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ code, discount })
-            });
-            document.getElementById('couponCode').value = '';
-            document.getElementById('couponDiscount').value = '';
-            loadCoupons();
-            toast('Coupon Added 🎟️');
-        }
+            async function addCoupon() {
+                const code = document.getElementById('couponCode').value;
+                const discount = document.getElementById('couponDiscount').value;
+                if (!code || !discount) return;
+                await fetch('/api/coupons', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ code, discount })
+                });
+                document.getElementById('couponCode').value = '';
+                document.getElementById('couponDiscount').value = '';
+                loadCoupons();
+                toast('Coupon Added 🎟️');
+            }
 
-        async function deleteCoupon(id) {
-            if (!confirm("Remove coupon?")) return;
-            await fetch(`/api/coupons/${id}`, { method: 'DELETE' });
-            loadCoupons();
-        }
+            async function deleteCoupon(id) {
+                if (!confirm("Remove coupon?")) return;
+                await fetch(`/api/coupons/${id}`, { method: 'DELETE' });
+                loadCoupons();
+            }
 
-        // REVIEWS
-        async function loadReviews() {
-            try {
-                const res = await fetch('/api/reviews');
-                const data = await res.json();
-                const div = document.getElementById('reviewsList');
-                div.innerHTML = data.map(r => `
+            // REVIEWS
+            async function loadReviews() {
+                try {
+                    const res = await fetch('/api/reviews');
+                    const data = await res.json();
+                    const div = document.getElementById('reviewsList');
+                    div.innerHTML = data.map(r => `
                 <div style="padding:10px; border-bottom:1px solid #eee; display:flex; justify-content:space-between; align-items:start; background:${r.approved ? '#f0fff4' : '#fff3e0'};">
                     <div>
                         <strong>${r.name}</strong> (${r.rating}⭐) 
@@ -736,187 +775,187 @@
                     </div>
                 </div>
             `).join('');
-            } catch (e) { console.error(e); }
-        }
+                } catch (e) { console.error(e); }
+            }
 
-        async function approveReview(id) {
-            await fetch(`/api/reviews/${id}/approve`, { method: 'PUT' });
-            loadReviews();
-            toast('Review Approved ✅');
-        }
+            async function approveReview(id) {
+                await fetch(`/api/reviews/${id}/approve`, { method: 'PUT' });
+                loadReviews();
+                toast('Review Approved ✅');
+            }
 
-        async function addReview() {
-            const name = document.getElementById('reviewName').value;
-            const text = document.getElementById('reviewText').value;
-            const rating = document.getElementById('reviewRating').value;
-            if (!name || !text) return alert('Fill fields');
+            async function addReview() {
+                const name = document.getElementById('reviewName').value;
+                const text = document.getElementById('reviewText').value;
+                const rating = document.getElementById('reviewRating').value;
+                if (!name || !text) return alert('Fill fields');
 
-            await fetch('/api/reviews', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ name, text, rating })
-            });
-            document.getElementById('reviewName').value = '';
-            document.getElementById('reviewText').value = '';
-            loadReviews();
-            toast('Review Added');
-        }
+                await fetch('/api/reviews', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ name, text, rating })
+                });
+                document.getElementById('reviewName').value = '';
+                document.getElementById('reviewText').value = '';
+                loadReviews();
+                toast('Review Added');
+            }
 
-        async function deleteReview(id) {
-            if (!confirm('Delete?')) return;
-            await fetch(`/api/reviews/${id}`, { method: 'DELETE' });
-            loadReviews();
-        }
+            async function deleteReview(id) {
+                if (!confirm('Delete?')) return;
+                await fetch(`/api/reviews/${id}`, { method: 'DELETE' });
+                loadReviews();
+            }
 
-        // SERVICE STATUS
-        async function loadStatus() {
-            try {
-                const res = await fetch('/api/service-status');
-                const data = await res.json();
-                document.getElementById('statusIG').value = data.instagram || 'operational';
-                document.getElementById('statusTT').value = data.tiktok || 'operational';
-                document.getElementById('statusFB').value = data.facebook || 'operational';
-                document.getElementById('statusYT').value = data.youtube || 'operational';
-            } catch (e) { console.error(e); }
-        }
+            // SERVICE STATUS
+            async function loadStatus() {
+                try {
+                    const res = await fetch('/api/service-status');
+                    const data = await res.json();
+                    document.getElementById('statusIG').value = data.instagram || 'operational';
+                    document.getElementById('statusTT').value = data.tiktok || 'operational';
+                    document.getElementById('statusFB').value = data.facebook || 'operational';
+                    document.getElementById('statusYT').value = data.youtube || 'operational';
+                } catch (e) { console.error(e); }
+            }
 
-        async function saveStatus() {
-            const data = {
-                instagram: document.getElementById('statusIG').value,
-                tiktok: document.getElementById('statusTT').value,
-                facebook: document.getElementById('statusFB').value,
-                youtube: document.getElementById('statusYT').value
-            };
-            await fetch('/api/service-status', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify(data)
-            });
-            toast('Status Updated');
-        }
-
-        async function loadStats() {
-            try {
-                const res = await fetch('/api/stats');
-                if (res.status === 401) return logout();
-                const data = await res.json();
-                document.getElementById('statTotal').innerText = data.total_notifications || 0;
-            } catch (e) { console.error(e); }
-        }
-
-        async function loadConfig() {
-            try {
-                const res = await fetch('/api/config');
-                if (res.status === 401) return logout();
-                const data = await res.json();
-
-                // Flags
-                document.getElementById('christmasToggle').checked = data.christmas_enabled;
-                document.getElementById('adminToggle').checked = data.admin_hidden;
-                document.getElementById('maintenanceToggle').checked = data.maintenance_mode;
-                document.getElementById('tawkToggle').checked = data.use_tawk;
-                document.getElementById('forceUpdateToggle').checked = data.force_update;
-
-                // Text
-                document.getElementById('bannerText').value = data.banner_text || "";
-                document.getElementById('appLogoUrl').value = data.app_logo_url || "";
-                document.getElementById('tawkLink').value = data.tawk_link || "";
-                document.getElementById('whatsappNumber').value = data.whatsapp_number || "+254702716440";
-                document.getElementById('latestVersion').value = data.latest_version_code || "1";
-                document.getElementById('updateUrl').value = data.update_url || "";
-
-            } catch (e) { console.error(e); }
-        }
-
-        async function saveConfig() {
-            const data = {
-                christmas_enabled: document.getElementById('christmasToggle').checked,
-                admin_hidden: document.getElementById('adminToggle').checked,
-                maintenance_mode: document.getElementById('maintenanceToggle').checked,
-                banner_text: document.getElementById('bannerText').value,
-
-                app_logo_url: document.getElementById('appLogoUrl').value,
-                latest_version_code: document.getElementById('latestVersion').value,
-                update_url: document.getElementById('updateUrl').value,
-                force_update: document.getElementById('forceUpdateToggle').checked,
-
-                tawk_link: document.getElementById('tawkLink').value,
-                use_tawk: document.getElementById('tawkToggle').checked,
-                whatsapp_number: document.getElementById('whatsappNumber').value
-            };
-
-            try {
-                const res = await fetch('/api/update-config', {
+            async function saveStatus() {
+                const data = {
+                    instagram: document.getElementById('statusIG').value,
+                    tiktok: document.getElementById('statusTT').value,
+                    facebook: document.getElementById('statusFB').value,
+                    youtube: document.getElementById('statusYT').value
+                };
+                await fetch('/api/service-status', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify(data)
                 });
-                if (res.status === 401) return logout();
-                const json = await res.json();
-                if (json.success) toast('Configuration Saved! 🚀');
-                else toast('Error Saving Config');
-            } catch (e) { toast('Network Error'); }
-        }
+                toast('Status Updated');
+            }
 
-        async function sendNotification() {
-            const title = document.getElementById('notifTitle').value;
-            const body = document.getElementById('notifBody').value;
-            const mediaUrl = document.getElementById('notifMedia').value;
-            const targetUrl = document.getElementById('notifUrl').value;
-            const scheduledTime = document.getElementById('notifSchedule').value;
-            const isHighAlert = document.getElementById('notifHighAlert').checked;
+            async function loadStats() {
+                try {
+                    const res = await fetch('/api/stats');
+                    if (res.status === 401) return logout();
+                    const data = await res.json();
+                    document.getElementById('statTotal').innerText = data.total_notifications || 0;
+                } catch (e) { console.error(e); }
+            }
 
-            if (!title || !body) return alert("Enter title and body");
+            async function loadConfig() {
+                try {
+                    const res = await fetch('/api/config');
+                    if (res.status === 401) return logout();
+                    const data = await res.json();
 
-            try {
-                const res = await fetch('/api/send-notification', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({
-                        title,
-                        body,
-                        type: mediaUrl ? 'image' : 'text',
-                        mediaUrl,
-                        targetUrl,
-                        scheduledTime,
-                        isHighAlert
-                    })
-                });
-                if (res.status === 401) return logout();
-                const json = await res.json();
-                if (json.success) {
-                    toast(scheduledTime ? 'Notification Scheduled!' : 'Notification Sent!');
-                    document.getElementById('notifTitle').value = '';
-                    document.getElementById('notifBody').value = '';
-                    document.getElementById('notifMedia').value = '';
-                    document.getElementById('notifUrl').value = '';
-                    document.getElementById('notifSchedule').value = '';
-                    document.getElementById('notifHighAlert').checked = false;
-                    loadHistory();
-                    loadStats();
-                } else {
-                    toast('Error: ' + json.error);
-                }
-            } catch (e) { toast('Network Error'); }
-        }
+                    // Flags
+                    document.getElementById('christmasToggle').checked = data.christmas_enabled;
+                    document.getElementById('adminToggle').checked = data.admin_hidden;
+                    document.getElementById('maintenanceToggle').checked = data.maintenance_mode;
+                    document.getElementById('tawkToggle').checked = data.use_tawk;
+                    document.getElementById('forceUpdateToggle').checked = data.force_update;
 
-        async function loadHistory() {
-            const container = document.getElementById('historyList');
-            const recentContainer = document.getElementById('recentActivity');
-            try {
-                const res = await fetch('/api/notifications');
-                if (res.status === 401) return logout();
-                const list = await res.json();
+                    // Text
+                    document.getElementById('bannerText').value = data.banner_text || "";
+                    document.getElementById('appLogoUrl').value = data.app_logo_url || "";
+                    document.getElementById('tawkLink').value = data.tawk_link || "";
+                    document.getElementById('whatsappNumber').value = data.whatsapp_number || "+254702716440";
+                    document.getElementById('latestVersion').value = data.latest_version_code || "1";
+                    document.getElementById('updateUrl').value = data.update_url || "";
 
-                if (list.length === 0) {
-                    container.innerHTML = '<p>No history.</p>';
-                    return;
-                }
+                } catch (e) { console.error(e); }
+            }
 
-                let html = '';
-                list.forEach(item => {
-                    const date = item.date ? new Date(item.date).toLocaleString() : 'Recent';
-                    html += `
+            async function saveConfig() {
+                const data = {
+                    christmas_enabled: document.getElementById('christmasToggle').checked,
+                    admin_hidden: document.getElementById('adminToggle').checked,
+                    maintenance_mode: document.getElementById('maintenanceToggle').checked,
+                    banner_text: document.getElementById('bannerText').value,
+
+                    app_logo_url: document.getElementById('appLogoUrl').value,
+                    latest_version_code: document.getElementById('latestVersion').value,
+                    update_url: document.getElementById('updateUrl').value,
+                    force_update: document.getElementById('forceUpdateToggle').checked,
+
+                    tawk_link: document.getElementById('tawkLink').value,
+                    use_tawk: document.getElementById('tawkToggle').checked,
+                    whatsapp_number: document.getElementById('whatsappNumber').value
+                };
+
+                try {
+                    const res = await fetch('/api/update-config', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify(data)
+                    });
+                    if (res.status === 401) return logout();
+                    const json = await res.json();
+                    if (json.success) toast('Configuration Saved! 🚀');
+                    else toast('Error Saving Config');
+                } catch (e) { toast('Network Error'); }
+            }
+
+            async function sendNotification() {
+                const title = document.getElementById('notifTitle').value;
+                const body = document.getElementById('notifBody').value;
+                const mediaUrl = document.getElementById('notifMedia').value;
+                const targetUrl = document.getElementById('notifUrl').value;
+                const scheduledTime = document.getElementById('notifSchedule').value;
+                const isHighAlert = document.getElementById('notifHighAlert').checked;
+
+                if (!title || !body) return alert("Enter title and body");
+
+                try {
+                    const res = await fetch('/api/send-notification', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({
+                            title,
+                            body,
+                            type: mediaUrl ? 'image' : 'text',
+                            mediaUrl,
+                            targetUrl,
+                            scheduledTime,
+                            isHighAlert
+                        })
+                    });
+                    if (res.status === 401) return logout();
+                    const json = await res.json();
+                    if (json.success) {
+                        toast(scheduledTime ? 'Notification Scheduled!' : 'Notification Sent!');
+                        document.getElementById('notifTitle').value = '';
+                        document.getElementById('notifBody').value = '';
+                        document.getElementById('notifMedia').value = '';
+                        document.getElementById('notifUrl').value = '';
+                        document.getElementById('notifSchedule').value = '';
+                        document.getElementById('notifHighAlert').checked = false;
+                        loadHistory();
+                        loadStats();
+                    } else {
+                        toast('Error: ' + json.error);
+                    }
+                } catch (e) { toast('Network Error'); }
+            }
+
+            async function loadHistory() {
+                const container = document.getElementById('historyList');
+                const recentContainer = document.getElementById('recentActivity');
+                try {
+                    const res = await fetch('/api/notifications');
+                    if (res.status === 401) return logout();
+                    const list = await res.json();
+
+                    if (list.length === 0) {
+                        container.innerHTML = '<p>No history.</p>';
+                        return;
+                    }
+
+                    let html = '';
+                    list.forEach(item => {
+                        const date = item.date ? new Date(item.date).toLocaleString() : 'Recent';
+                        html += `
                     <div class="history-item">
                         <div>
                             <strong>${item.title}</strong>
@@ -926,30 +965,30 @@
                         <button class="btn btn-delete" style="padding:5px 10px; font-size:12px;" onclick="deleteItem('${item.id}')">Delete</button>
                     </div>
                 `;
-                });
-                container.innerHTML = html;
+                    });
+                    container.innerHTML = html;
 
-                // Recent (Last 3)
-                let recentHtml = '';
-                list.slice(0, 3).forEach(item => {
-                    recentHtml += `<div style="padding:10px; border-bottom:1px solid #eee;">
+                    // Recent (Last 3)
+                    let recentHtml = '';
+                    list.slice(0, 3).forEach(item => {
+                        recentHtml += `<div style="padding:10px; border-bottom:1px solid #eee;">
                     <strong>${item.title}</strong> - <span style="color:#666">${new Date(item.date).toLocaleDateString()}</span>
                  </div>`;
-                });
-                recentContainer.innerHTML = recentHtml || 'No recent activity';
+                    });
+                    recentContainer.innerHTML = recentHtml || 'No recent activity';
 
-            } catch (e) { console.error(e); }
-        }
+                } catch (e) { console.error(e); }
+            }
 
-        async function deleteItem(id) {
-            if (!confirm('Delete this record?')) return;
-            try {
-                await fetch('/api/notifications/' + id, { method: 'DELETE' });
-                loadHistory();
-                loadStats();
-            } catch (e) { toast('Error deleting'); }
-        }
-    </script>
+            async function deleteItem(id) {
+                if (!confirm('Delete this record?')) return;
+                try {
+                    await fetch('/api/notifications/' + id, { method: 'DELETE' });
+                    loadHistory();
+                    loadStats();
+                } catch (e) { toast('Error deleting'); }
+            }
+        </script>
 
 </body>
 
